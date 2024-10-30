@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Procesamiento de SMS</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie-edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel='stylesheet' href="css/styles.css">
+    <script data-main="js/customActivity" src="../js/require.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript" src="js/require.js"></script>
+    <script> var $jq = jQuery.noConflict(); </script>
+    <script type="text/javascript">
+        (function () {
+
+            var config = {
+                baseUrl: 'js'
+            };
+            var dependencies = [
+                'customActivity'
+            ];
+            require(config, dependencies);
+        })();
+
+    </script>
+</head>
+
+<body>
+    <div class="main-block">
+        <header>
+            <img src="./images/logo-white-claro.svg"  alt="">
+            <h3>RCS - ENVÍO SMS</h3>
+        </header>
+        <section id="content">
+            <form action="/">
+                <fieldset>
+                    <legend>Origen del mensaje</legend>
+                    <input type="text" name="remitente" id="remitente" placeholder="Sender del Mensaje" required=""
+                        style="width: 60%;" class="text-input">
+                </fieldset>
+                <fieldset>
+                    <legend>Data Extension</legend>
+                    <input type="text" name="dataExtension" id="dataExtension" placeholder="Nombre de la Data Extension"
+                        style="width: 95%;" required="" class="text-input">
+                </fieldset>
+                <fieldset class="fs-column">
+                    <legend>Mensaje</legend>
+                    <div  class="switch-field">
+                        <input type="radio" id="mode-independent" name="mode" value="independent" checked
+                            onclick="setIndependentMode()" />
+                        <label for="mode-independent"><i class="fa fa-comments" aria-hidden="true"></i>Simple</label>
+                        <input type="radio" id="mode-dependent" name="mode" value="dependent"
+                            onclick="setDependentMode()" />
+                        <label for="mode-dependent"><i class="fa fa-cogs" aria-hidden="true"></i>Custom Activity</label>
+                        <input type="radio" id="mode-data-extension" name="mode" value="data-extension"
+                            onclick="setDataExtensionMode()" />
+                        <label for="mode-data-extension"><i class="fa fa-table" aria-hidden="true"></i>Data Extension</label>
+                    </div>
+                    <div id="dependentModeOptionsDiv" class="fs-column" style="display: none;">
+                        <div class="btn-block">
+                            <select id="messageActivity" name="messageActivity" class="slds-select">
+                            </select>
+                        </div>
+                    </div>
+                    <div id="independentModeOptionsDiv">
+                        <textarea maxlength="160" name="mensajeIndependiente" id="mensajeIndependiente" placeholder="Mensaje"
+                        required=""></textarea>
+                   </div>
+                    <div id="dataExtensionModeOptionsDiv" style="display: none;">
+                        <input type="text" name="dataExtensionMessageColumn" style="border: 1px solid grey;" id="dataExtensionMessageColumn"
+                            placeholder="Campo que contiene el mensaje" required="" >
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+    </div>
+</body>
+<script>
+    const setOrigin = (country) => {
+        const brokerOrigin = 'flag' + country
+        Array.from(document.querySelectorAll('.flag-selected')).forEach(function (el) {
+            el.classList.remove('flag-selected');
+            el.classList.add('flag-no-selected');
+        });
+        document.getElementById(brokerOrigin).className = "flag flag-selected"
+        document.getElementById('save-action-country-' + country).click()
+    }
+</script>
+
+</html>
