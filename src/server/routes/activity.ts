@@ -134,6 +134,8 @@ const execute = async function (req: Request, res: Response) {
                         }
                     });
                     
+                    console.log('loginResponse:',loginResponse);
+
                     brokerRequestDurationTimestamps.end = performance.now();
                     let messageSendingFailed = !loginResponse ? true : false;
                     

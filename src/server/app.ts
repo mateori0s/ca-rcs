@@ -2,7 +2,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import errorhandler from 'errorhandler';
-import http from 'http';
 import path from 'path';
 import routes from './routes';
 import activity from './routes/activity';
@@ -30,16 +29,4 @@ app.post('/journeybuilder/validate/', activity.validate);
 app.post('/journeybuilder/publish/', activity.publish);
 app.post('/journeybuilder/execute/', activity.execute);
 
-dataSource.initialize()
-  .then(() => {
-    console.log("Data Source has been initialized!");
-    http.createServer(app).listen(
-      app.get('port'), () => {
-        console.log(process.env.DBCP_NEWS_NOTMGR_USERNAME);
-        console.log('Express server listening on port ' + app.get('port'));
-      }
-    );
-  })
-  .catch((err: any) => {
-    console.error("Error during Data Source initialization:", err);
-  });
+
