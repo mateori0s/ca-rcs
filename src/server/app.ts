@@ -6,7 +6,6 @@ import http from 'http';
 import path from 'path';
 import routes from './routes';
 import activity from './routes/activity';
-import { dataSource } from './app-data-source';
 
 const app = express();
 
