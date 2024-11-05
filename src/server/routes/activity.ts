@@ -47,19 +47,14 @@ const logData = (req: Request) => {
 
 import axios from 'axios';
 interface RequestBody {
-    sender: string;
-    urgente: 0 | 1;
-    validar: 0 | 1;
-    mensaje: string;
-    bill_number: string;
-    source: string;
+    username: string;
+    password: string;
 }
 interface InputParamenter {
     mensajeTraducido?: string;
     cellularNumber?: string;
     remitente?: string;
     bill_number?: string;
-    smsAction?: SmsAction;
     expireDateModifier?: string;
     saveActionCountry?: string;
 }
@@ -94,8 +89,7 @@ const execute = async function (req: Request, res: Response) {
                 return res.status(401).end();
             }
             if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
-                const requestBody: Partial<RequestBody> = { sender: 'Claro', urgente: 1, validar: 0 };
-                let smsAction: SmsAction | null = null;
+                const requestBody = {username : 'api-claro-argentina', password : 'wFB4255u'}
                 let message: string | null = null;
                 let bill_number: string | null = null;
                 let source: string | null = null;
@@ -105,7 +99,6 @@ const execute = async function (req: Request, res: Response) {
                     if (argument.mensajeTraducido) message = argument.mensajeTraducido;
                     else if (argument.cellularNumber) bill_number = argument.cellularNumber;
                     else if (argument.remitente) source = argument.remitente;
-                    else if (argument.smsAction) smsAction = argument.smsAction;
                     else if (argument.expireDateModifier) expireDateModifier = argument.expireDateModifier;
                     else if (argument.saveActionCountry) saveActionCountry = argument.saveActionCountry;
                 }
@@ -116,11 +109,9 @@ const execute = async function (req: Request, res: Response) {
                     !source
                 ) return res.status(400).send(`Input parameter is missing.`);
 
-                if (smsAction === SmsAction.SEND) {
-                    requestBody.mensaje = message;
-                    requestBody.bill_number = bill_number;
-                    requestBody.source = source;
+                let RCSREQUEST = true;
 
+                if (RCSREQUEST = true) {
                     const { env: { RCS_SMS_API_URL, RCS_API_KEY } } = process;
                     const brokerRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
 
@@ -139,12 +130,7 @@ const execute = async function (req: Request, res: Response) {
                         brokerRequestDurationTimestamps.end = performance.now();
                         if (error.response) {
                             const { data, status } = error.response;
-                            specialConsoleLog(
-                                requestBody.bill_number!,
-                                'BROKER_REQUEST_FAILED',
-                                brokerRequestDurationTimestamps,
-                                { data, status }
-                            );
+                            console.log('BROKER_REQUEST_FAILED')
                         }
                     });
                     
@@ -155,21 +141,12 @@ const execute = async function (req: Request, res: Response) {
                         const { data, status } = loginResponse;
                     
                         if (status === 200 && data.responseCode !== 0) {
-                            specialConsoleLog(
-                                requestBody.bill_number,
-                                'BROKER_RESPONSE_FAILED',
-                                brokerRequestDurationTimestamps,
-                                { data, status }
-                            );
+                            console.log('BROKER_REQUEST_FAILED')
                             messageSendingFailed = true;
                         }
                          else {
-                            specialConsoleLog(
-                                requestBody.bill_number!,
-                                'BROKER_REQUEST_SUCCESS',
-                                brokerRequestDurationTimestamps,
-                                { data, status }
-                            );
+                            console.log('BROKER_REQUEST_SUCCESS')
+
                         }
                     }
                     

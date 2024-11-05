@@ -1,5 +1,5 @@
 {
-  "name": "cdp-ca-broker",
+  "name": "cdp-ca-rcs",
   "version": "1.0.4",
   "description": "CA CDP Claro Journey Builder",
   "engines": {
