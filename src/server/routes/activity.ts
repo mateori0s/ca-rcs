@@ -88,8 +88,10 @@ const execute = async function (req: Request, res: Response) {
                 console.error(err);
                 return res.status(401).end();
             }
+
+            
             if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
-                const requestBody = {username : 'api-claro-argentina', password : 'wFB4255u'}
+                const requestBody : Partial<RequestBody> = {username : 'api-claro-argentina', password : 'wFB4255u'}
                 let message: string | null = null;
                 let bill_number: string | null = null;
                 let source: string | null = null;
