@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Procesamiento de SMS</title>
+    <title>Envío de RCS</title>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie-edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,7 +34,7 @@
     <div class="main-block">
         <header>
             <img src="./images/logo-white-claro.svg"  alt="">
-            <h3>RCS - ENVÍO SMS</h3>
+            <h3>ENVÍO RCS</h3>
         </header>
         <section id="content">
             <form action="/">
@@ -42,34 +42,6 @@
                     <legend>Data Extension</legend>
                     <input type="text" name="dataExtension" id="dataExtension" placeholder="Nombre de la Data Extension"
                         style="width: 95%;" required="" class="text-input">
-                </fieldset>
-                <fieldset class="fs-column">
-                    <legend>Mensaje</legend>
-                    <div  class="switch-field">
-                        <input type="radio" id="mode-independent" name="mode" value="independent" checked
-                            onclick="setIndependentMode()" />
-                        <label for="mode-independent"><i class="fa fa-comments" aria-hidden="true"></i>Simple</label>
-                        <input type="radio" id="mode-dependent" name="mode" value="dependent"
-                            onclick="setDependentMode()" />
-                        <label for="mode-dependent"><i class="fa fa-cogs" aria-hidden="true"></i>Custom Activity</label>
-                        <input type="radio" id="mode-data-extension" name="mode" value="data-extension"
-                            onclick="setDataExtensionMode()" />
-                        <label for="mode-data-extension"><i class="fa fa-table" aria-hidden="true"></i>Data Extension</label>
-                    </div>
-                    <div id="dependentModeOptionsDiv" class="fs-column" style="display: none;">
-                        <div class="btn-block">
-                            <select id="messageActivity" name="messageActivity" class="slds-select">
-                            </select>
-                        </div>
-                    </div>
-                    <div id="independentModeOptionsDiv">
-                        <textarea maxlength="160" name="mensajeIndependiente" id="mensajeIndependiente" placeholder="Mensaje"
-                        required=""></textarea>
-                   </div>
-                    <div id="dataExtensionModeOptionsDiv" style="display: none;">
-                        <input type="text" name="dataExtensionMessageColumn" style="border: 1px solid grey;" id="dataExtensionMessageColumn"
-                            placeholder="Campo que contiene el mensaje" required="" >
-                    </div>
                 </fieldset>
             </form>
         </section>
