@@ -53,7 +53,6 @@ interface RequestBody {
 interface InputParamenter {
     mensajeTraducido?: string;
     cellularNumber?: string;
-    remitente?: string;
     bill_number?: string;
     expireDateModifier?: string;
     saveActionCountry?: string;
@@ -100,7 +99,6 @@ const execute = async function (req: Request, res: Response) {
                 for (const argument of decoded.inArguments) {
                     if (argument.mensajeTraducido) message = argument.mensajeTraducido;
                     else if (argument.cellularNumber) bill_number = argument.cellularNumber;
-                    else if (argument.remitente) source = argument.remitente;
                     else if (argument.expireDateModifier) expireDateModifier = argument.expireDateModifier;
                     else if (argument.saveActionCountry) saveActionCountry = argument.saveActionCountry;
                 }

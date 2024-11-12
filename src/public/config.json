@@ -18,7 +18,6 @@
             "inArguments": [
                 { "dataExtension": "" },
                 { "mensajeTraducido": "" },
-                { "remitente": "" },
                 { "cellularNumber": "" },
                 { "smsAction": "" },
                 { "caMode": "" },
@@ -87,11 +86,6 @@
                             "direction": "in"
                         },
                         "mensajeTraducido": {
-                            "dataType": "Text",
-                            "isNullable": true,
-                            "direction": "in"
-                        },
-                        "remitente": {
                             "dataType": "Text",
                             "isNullable": true,
                             "direction": "in"

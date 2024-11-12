@@ -29,8 +29,6 @@ define(['postmonger'], (Postmonger) => {
             data.arguments.execute.inArguments.length > 0
         ) ? data.arguments.execute.inArguments : [];
 
-        const remitenteArg = inArguments.find(arg => arg.remitente);
-        if (remitenteArg) document.getElementById('remitente').value = remitenteArg.remitente;
 
         const smsActionArg = inArguments.find(arg => arg.smsAction);
         if (smsActionArg && smsActionArg.smsAction && ['send', 'save'].includes(smsActionArg.smsAction)) {
@@ -144,7 +142,6 @@ define(['postmonger'], (Postmonger) => {
             mensajeTraducido = `{{Contact.Attribute."${dataExtension}".${dataExtensionMessageColumn}}}`;
         }
 
-        const remitente = document.getElementById('remitente').value;
         const cellularNumber = `{{Contact.Attribute."${dataExtension}".cellular_number}}`;
         const smsAction = getSmsAction();
 
@@ -161,7 +158,6 @@ define(['postmonger'], (Postmonger) => {
         activity['arguments'].execute.inArguments = [
             { dataExtension: dataExtension ? dataExtension : null },
             { mensajeTraducido: mensajeTraducido ? mensajeTraducido : null },
-            { remitente: remitente ? remitente : null },
             { cellularNumber: cellularNumber ? cellularNumber : null },
             { smsAction: smsAction ? smsAction : null },
             { caMode: caMode ? caMode : null },
