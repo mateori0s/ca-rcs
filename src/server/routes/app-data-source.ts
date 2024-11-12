@@ -2,9 +2,16 @@ import "reflect-metadata"
 import { DataSource } from "typeorm"
 import { CopiaBroker } from "../entities/copia-broker.entity";
 
-const nodeUrl = process.env.DBCP_NEWS_NOTMGR_URL;
+
+//const nodeUrl = 'bouquet.claro.amx:1521/ARNEWS.WORLD'
+//const nodeUrl = process.env.DBCP_NEWS_NOTMGR_URL;
 //bouquet.claro.amx:1521/ARNEWS.WORLD
- 
+
+
+
+const nodeUrl =  process.env.DBCP_NEWS_NOTMGR_URL || 'bouquet.claro.amx:1521/ARNEWS.WORLD';
+console.log("nodeUrl:", nodeUrl);
+
 
 export const dataSource = new DataSource({
   host: nodeUrl!.split(':')[0],
