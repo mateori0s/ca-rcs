@@ -5,7 +5,7 @@ import errorhandler from 'errorhandler';
 import path from 'path';
 import routes from './routes';
 import activity from './routes/activity';
-import { dataSource } from './app-data-source';
+import { dataSource } from './routes/app-data-source';
 
 
 const app = express();

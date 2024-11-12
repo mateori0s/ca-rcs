@@ -1,6 +1,6 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
-import { CopiaBroker } from "./entities/copia-broker.entity";
+import { CopiaBroker } from "../entities/copia-broker.entity";
 
 const nodeUrl = process.env.DBCP_NEWS_NOTMGR_URL;
 //bouquet.claro.amx:1521/ARNEWS.WORLD
