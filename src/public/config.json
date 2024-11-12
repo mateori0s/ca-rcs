@@ -9,7 +9,7 @@
     "lang": {
         "en-US": {
             "name": "DINAMICALLY_REPLACED",
-            "description": "Envía un SMS a un número de celular.",
+            "description": "Envía un mensaje RCS a un número de celular.",
             "step1Label": "Configure Activity"
         }
     },
@@ -19,10 +19,7 @@
                 { "dataExtension": "" },
                 { "mensajeTraducido": "" },
                 { "cellularNumber": "" },
-                { "smsAction": "" },
-                { "dataExtensionMessageColumn": "" },
-                { "expireDateModifier": "" },
-                { "saveActionCountry": "" }
+                { "expireDateModifier": "" }
             ],
             "outArguments": [
                 { "brokerStatus": false },
@@ -94,22 +91,7 @@
                             "isNullable": true,
                             "direction": "in"
                         },
-                        "smsAction": {
-                            "dataType": "Text",
-                            "isNullable": true,
-                            "direction": "in"
-                        },
-                        "dataExtensionMessageColumn": {
-                            "dataType": "Text",
-                            "isNullable": true,
-                            "direction": "in"
-                        },
                         "expireDateModifier": {
-                            "dataType": "Text",
-                            "isNullable": true,
-                            "direction": "in"
-                        },
-                        "saveActionCountry": {
                             "dataType": "Text",
                             "isNullable": true,
                             "direction": "in"
