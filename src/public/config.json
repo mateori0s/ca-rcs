@@ -18,8 +18,7 @@
             "inArguments": [
                 { "dataExtension": "" },
                 { "mensajeTraducido": "" },
-                { "cellularNumber": "" },
-                { "expireDateModifier": "" }
+                { "cellularNumber": "" }
             ],
             "outArguments": [
                 { "brokerStatus": false },
@@ -88,11 +87,6 @@
                         },
                         "cellularNumber": {
                             "dataType": "Phone",
-                            "isNullable": true,
-                            "direction": "in"
-                        },
-                        "expireDateModifier": {
-                            "dataType": "Text",
                             "isNullable": true,
                             "direction": "in"
                         }

@@ -54,8 +54,6 @@ interface InputParamenter {
     mensajeTraducido?: string;
     cellularNumber?: string;
     bill_number?: string;
-    expireDateModifier?: string;
-    saveActionCountry?: string;
 }
 interface DecodedBody {
     inArguments?: InputParamenter[];
@@ -94,13 +92,9 @@ const execute = async function (req: Request, res: Response) {
                 let message: string | null = null;
                 let bill_number: string | null = null;
                 let source: string | null = null;
-                let expireDateModifier: string = '1/24';
-                let saveActionCountry: string = 'AR';
                 for (const argument of decoded.inArguments) {
                     if (argument.mensajeTraducido) message = argument.mensajeTraducido;
                     else if (argument.cellularNumber) bill_number = argument.cellularNumber;
-                    else if (argument.expireDateModifier) expireDateModifier = argument.expireDateModifier;
-                    else if (argument.saveActionCountry) saveActionCountry = argument.saveActionCountry;
                 }
 
                 if (
@@ -113,7 +107,7 @@ const execute = async function (req: Request, res: Response) {
 
                 if (RCSREQUEST = true) {
                     const { env: { RCS_SMS_API_URL, RCS_API_KEY } } = process;
-                    const brokerRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
+                    const loginRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
 
                     let URL = RCS_SMS_API_URL
 
@@ -127,7 +121,7 @@ const execute = async function (req: Request, res: Response) {
                         }
                     )
                     .catch((error) => {
-                        brokerRequestDurationTimestamps.end = performance.now();
+                        loginRequestDurationTimestamps.end = performance.now();
                         if (error.response) {
                             const { data, status } = error.response;
                             console.log('BROKER_REQUEST_FAILED')
@@ -136,15 +130,15 @@ const execute = async function (req: Request, res: Response) {
                     
                     console.log('loginResponse:',loginResponse);
 
-                    brokerRequestDurationTimestamps.end = performance.now();
-                    let messageSendingFailed = !loginResponse ? true : false;
+                    loginRequestDurationTimestamps.end = performance.now();
+                    let loginFailed = !loginResponse ? true : false;
                     
-                    if (!messageSendingFailed && loginResponse) {
+                    if (!loginFailed && loginResponse) {
                         const { data, status } = loginResponse;
                     
                         if (status === 200 && data.responseCode !== 0) {
                             console.log('BROKER_REQUEST_FAILED')
-                            messageSendingFailed = true;
+                            loginFailed = true;
                         }
                          else {
                             console.log('BROKER_REQUEST_SUCCESS')
@@ -153,7 +147,7 @@ const execute = async function (req: Request, res: Response) {
                     }
                     
                     let brokerStatus = false;
-                    if (!messageSendingFailed) {
+                    if (!loginFailed) {
                         brokerStatus = !!(loginResponse && loginResponse.data);
                     }
                     

@@ -94,17 +94,13 @@ define(['postmonger'], (Postmonger) => {
         let mensajeTraducido;
 
         const cellularNumber = `{{Contact.Attribute."${dataExtension}".cellular_number}}`;
-    
-        let expireDateModifier = document.getElementById("expire-date-modifier").value ;
-        let saveActionCountry = null;
-        
+        const idTemplate = `{{Contact.Attribute."${idTemplate}".id_template}}`;
+
         activity['arguments'].execute.inArguments = [
             { dataExtension: dataExtension ? dataExtension : null },
             { mensajeTraducido: mensajeTraducido ? mensajeTraducido : null },
             { cellularNumber: cellularNumber ? cellularNumber : null },
-            { dataExtensionMessageColumn: dataExtensionMessageColumn ? dataExtensionMessageColumn : null },
-            { expireDateModifier: expireDateModifier ? expireDateModifier : null },
-            { saveActionCountry: saveActionCountry ? saveActionCountry : null }
+            { dataExtensionMessageColumn: dataExtensionMessageColumn ? dataExtensionMessageColumn : null }
         ];
 
         activity['metaData'].isConfigured = true;
@@ -122,12 +118,10 @@ define(['postmonger'], (Postmonger) => {
 });
 
 function setSendAction() {
-    document.getElementById('expireDateModifierDiv').style.display = 'none';
     connection.trigger('requestInteraction');
 }
 
 function setSaveAction() {
-    document.getElementById('expireDateModifierDiv').style.display = 'flex';
     connection.trigger('requestInteraction');
 }
 

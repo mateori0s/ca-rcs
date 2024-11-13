@@ -15,16 +15,6 @@ function getSmsAction() {
     }
     return smsAction;
 }
-function setSendAction() {
-    document.getElementById('expireDateModifierDiv').style.display = 'none';
-    global.connection.trigger('requestInteraction');
-}
-
-
-function setSaveAction() {
-    document.getElementById('expireDateModifierDiv').style.display = 'flex';
-    global.connection.trigger('requestInteraction');
-}
 
 function setIndependentMode() {
     document.getElementById("dependentModeOptionsDiv").style.display = "none";
