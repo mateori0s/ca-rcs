@@ -51,9 +51,8 @@ interface RequestBody {
     password: string;
 }
 interface InputParamenter {
-    mensajeTraducido?: string;
     cellularNumber?: string;
-    bill_number?: string;
+    idTemplate?: string;
 }
 interface DecodedBody {
     inArguments?: InputParamenter[];
@@ -86,24 +85,22 @@ const execute = async function (req: Request, res: Response) {
                 return res.status(401).end();
             }
 
-            
+            let RCSREQUEST = true;
+
             if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
                 const requestBody : Partial<RequestBody> = {username : 'api-claro-argentina', password : 'wFB4255u'}
-                let message: string | null = null;
-                let bill_number: string | null = null;
-                let source: string | null = null;
+                let cellularNumber: string | null = null;
+                let idTemplate: string | null = null;
                 for (const argument of decoded.inArguments) {
-                    if (argument.mensajeTraducido) message = argument.mensajeTraducido;
-                    else if (argument.cellularNumber) bill_number = argument.cellularNumber;
+                    
+                    if (argument.cellularNumber) cellularNumber = argument.cellularNumber;
+                    else if (argument.idTemplate) idTemplate = argument.idTemplate;
                 }
 
                 if (
-                    !message ||
-                    !bill_number ||
-                    !source
+                    !cellularNumber ||
+                    !idTemplate 
                 ) return res.status(400).send(`Input parameter is missing.`);
-
-                let RCSREQUEST = true;
 
                 if (RCSREQUEST = true) {
                     const { env: { RCS_SMS_API_URL, RCS_API_KEY } } = process;
@@ -123,7 +120,6 @@ const execute = async function (req: Request, res: Response) {
                     .catch((error) => {
                         loginRequestDurationTimestamps.end = performance.now();
                         if (error.response) {
-                            const { data, status } = error.response;
                             console.log('BROKER_REQUEST_FAILED')
                         }
                     });
@@ -152,8 +148,7 @@ const execute = async function (req: Request, res: Response) {
                     }
                     
                     const output = {
-                        brokerStatus: brokerStatus,
-                        Sender: source,
+                        brokerStatus: brokerStatus
                     };
                     
                     return res.status(200).send(output);

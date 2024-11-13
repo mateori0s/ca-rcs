@@ -37,8 +37,7 @@ define(['postmonger'], (Postmonger) => {
     connection.on('requestedInteraction', (payload) => {
         caMode = 'dependent'
         if (caMode === 'dependent') {    
-            let selectedValue;
-            // determine the selected item (if there is one)
+
             if (activity.arguments.execute.inArguments) {
                 let existingSelection;
                 for (const inArgument of activity.arguments.execute.inArguments) {
@@ -50,7 +49,6 @@ define(['postmonger'], (Postmonger) => {
                 if (existingSelection && existingSelection.split(".").length == 3) selectedValue = existingSelection.split(".")[1];
             }
             // Populate the select dropdown.
-
             const selectElement = document.getElementById("messageActivity");
             var options = document.querySelectorAll('#messageActivity option');
             options.forEach(o => o.remove());
@@ -89,18 +87,13 @@ define(['postmonger'], (Postmonger) => {
     connection.on('clickedNext', () => { // Save function within MC.
 
         const dataExtension = document.getElementById('dataExtension').value;
-        let dataExtensionMessageColumn;
-
-        let mensajeTraducido;
-
         const cellularNumber = `{{Contact.Attribute."${dataExtension}".cellular_number}}`;
         const idTemplate = `{{Contact.Attribute."${idTemplate}".id_template}}`;
 
         activity['arguments'].execute.inArguments = [
             { dataExtension: dataExtension ? dataExtension : null },
-            { mensajeTraducido: mensajeTraducido ? mensajeTraducido : null },
-            { cellularNumber: cellularNumber ? cellularNumber : null },
-            { dataExtensionMessageColumn: dataExtensionMessageColumn ? dataExtensionMessageColumn : null }
+            { idTemplate: idTemplate ? idTemplate : null },
+            { cellularNumber: cellularNumber ? cellularNumber : null }
         ];
 
         activity['metaData'].isConfigured = true;
