@@ -127,7 +127,7 @@ const execute = async function (req: Request, res: Response) {
                     });
                     
                     console.log('loginResponse:',loginResponse);
-                    console.log('loginResponse:',response.data.access_token);
+                    //console.log('loginResponse:',response.data.access_token);
 
 
                     loginRequestDurationTimestamps.end = performance.now();
