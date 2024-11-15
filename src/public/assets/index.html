@@ -47,16 +47,4 @@
         </section>
     </div>
 </body>
-<script>
-    const setOrigin = (country) => {
-        const brokerOrigin = 'flag' + country
-        Array.from(document.querySelectorAll('.flag-selected')).forEach(function (el) {
-            el.classList.remove('flag-selected');
-            el.classList.add('flag-no-selected');
-        });
-        document.getElementById(brokerOrigin).className = "flag flag-selected"
-        document.getElementById('save-action-country-' + country).click()
-    }
-</script>
-
 </html>
