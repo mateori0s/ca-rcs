@@ -1,5 +1,5 @@
 'use strict';
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import { performance } from "perf_hooks";
 import { verify } from 'jsonwebtoken';
 
@@ -49,6 +49,9 @@ import axios from 'axios';
 interface RequestBody {
     username: string;
     password: string;
+    campaign_id: string;
+    execution_id: string;
+    msisdn: string;
 }
 interface InputParamenter {
     cellularNumber?: string;
@@ -92,7 +95,6 @@ const execute = async function (req: Request, res: Response) {
                 let cellularNumber: string | null = null;
                 let idTemplate: string | null = null;
                 for (const argument of decoded.inArguments) {
-                    
                     if (argument.cellularNumber) cellularNumber = argument.cellularNumber;
                     else if (argument.idTemplate) idTemplate = argument.idTemplate;
                 }
@@ -125,20 +127,21 @@ const execute = async function (req: Request, res: Response) {
                     });
                     
                     console.log('loginResponse:',loginResponse);
+                    console.log('loginResponse:',response.data.access_token);
+
 
                     loginRequestDurationTimestamps.end = performance.now();
                     let loginFailed = !loginResponse ? true : false;
                     
                     if (!loginFailed && loginResponse) {
                         const { data, status } = loginResponse;
-                    
+
                         if (status === 200 && data.responseCode !== 0) {
                             console.log('BROKER_REQUEST_FAILED')
                             loginFailed = true;
                         }
                          else {
                             console.log('BROKER_REQUEST_SUCCESS')
-
                         }
                     }
                     
@@ -146,6 +149,26 @@ const execute = async function (req: Request, res: Response) {
                     if (!loginFailed) {
                         brokerStatus = !!(loginResponse && loginResponse.data);
                     }
+                    
+                    // const sendRcsRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
+                    // const sendRcsResponse = await axios.post(
+                    //     `${URL}/api/od_campaign`,
+                    //     requestBody,
+                    //     {
+                    //         headers: {
+                    //             Authorization: `Bearer ${token}`,  // Configuración del token
+                    //             apikey : RCS_API_KEY
+                    //         }
+                    //     }
+                    // )
+                    // .catch((error) => {
+                    //     sendRcsRequestDurationTimestamps.end = performance.now();
+                    //     if (error.response) {
+                    //         console.log('BROKER_REQUEST_FAILED')
+                    //     }
+                    // });
+                    
+                    // console.log('sendRcsResponse:',sendRcsResponse);
                     
                     const output = {
                         brokerStatus: brokerStatus
