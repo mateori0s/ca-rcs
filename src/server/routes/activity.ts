@@ -1,7 +1,8 @@
 'use strict';
-import { Request, response, Response } from "express";
+import { Request, Response } from "express";
 import { performance } from "perf_hooks";
 import { verify } from 'jsonwebtoken';
+import axios from 'axios';
 
 interface ExecuteLog {
     body: any;
@@ -44,8 +45,6 @@ const logData = (req: Request) => {
         originalUrl: req.originalUrl
     });
 }
-
-import axios from 'axios';
 interface RequestBody {
     username: string;
     password: string;
@@ -82,102 +81,141 @@ const execute = async function (req: Request, res: Response) {
         body.toString('utf8'),
         JWT_SECRET,
         { algorithms: ['HS256'], complete: false },
-        async (err, decoded?: DecodedBody) => {
+        async (err, decoded?) => {
             if (err) {
                 console.error(err);
                 return res.status(401).end();
             }
 
-            let RCSREQUEST = true;
+            if (
+                typeof decoded === 'object' &&
+                decoded !== null &&
+                'inArguments' in decoded &&
+                Array.isArray((decoded as any).inArguments)
+            ) {
 
-            if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
-                const requestBody : Partial<RequestBody> = {username : 'api-claro-argentina', password : 'wFB4255u'}
-                let cellularNumber: string | null = null;
-                let idTemplate: string | null = null;
-                for (const argument of decoded.inArguments) {
-                    if (argument.cellularNumber) cellularNumber = argument.cellularNumber;
-                    else if (argument.idTemplate) idTemplate = argument.idTemplate;
-                }
+                const inArguments = (decoded as { inArguments: InputParamenter[] }).inArguments;
 
-                if (
-                    !cellularNumber ||
-                    !idTemplate 
-                ) return res.status(400).send(`Input parameter is missing.`);
+                let RCSREQUEST = true;
 
-                if (RCSREQUEST = true) {
+                if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
+                    const requestBody: Partial<RequestBody> =
+                    {
+                        username: 'api-claro-argentina',
+                        password: 'wFB4255u',
+                        campaign_id: 'a23c1fde-adea-46e4-a22a-d6c35b4fe31c',
+                        execution_id: '4122370d-d27c-46c1-8336-7339371a2fe6',
+                        msisdn: '5491121806490'
+                    }
+
+                    let cellularNumber: string | null = null;
+                    let idTemplate: string | null = null;
+
+                    for (const argument of decoded.inArguments) {
+                        if (argument.cellularNumber) cellularNumber = argument.cellularNumber;
+                        else if (argument.idTemplate) idTemplate = argument.idTemplate;
+                    }
+                    if (
+                        !cellularNumber ||
+                        !idTemplate
+                    ) return res.status(400).send(`Input parameter is missing.`);
+
                     const { env: { RCS_SMS_API_URL, RCS_API_KEY } } = process;
                     const loginRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
 
                     let URL = RCS_SMS_API_URL
+
+                    console.log('RCS_SMS_API_URL:', RCS_SMS_API_URL);
+                    console.log('RCS_API_KEY:', RCS_API_KEY);
+                    console.log('cellularNumber:', cellularNumber);
+                    console.log('idTemplate:', idTemplate);
+
+                    console.log('---Post Login---');
 
                     const loginResponse = await axios.post(
                         `${URL}/auth/login`,
                         requestBody,
                         {
                             headers: {
-                                apikey : RCS_API_KEY
+                                apikey: RCS_API_KEY
                             }
                         }
                     )
-                    .catch((error) => {
-                        loginRequestDurationTimestamps.end = performance.now();
-                        if (error.response) {
-                            console.log('BROKER_REQUEST_FAILED')
-                        }
-                    });
-                    
-                    console.log('loginResponse:',loginResponse);
-                    //console.log('loginResponse:',response.data.access_token);
-
+                        .catch((error) => {
+                            loginRequestDurationTimestamps.end = performance.now();
+                            if (error.response) {
+                                console.log('RCS_LOGIN_REQUEST_FAILED')
+                            }
+                        });
 
                     loginRequestDurationTimestamps.end = performance.now();
                     let loginFailed = !loginResponse ? true : false;
-                    
-                    if (!loginFailed && loginResponse) {
-                        const { data, status } = loginResponse;
+                    let token;
 
-                        if (status === 200 && data.responseCode !== 0) {
-                            console.log('BROKER_REQUEST_FAILED')
+                    if (!loginFailed && loginResponse) {
+                        const { data, status, statusText } = loginResponse;
+
+                        token = data.data.token
+
+                        console.log('status:', status);
+                        console.log('statusText:', statusText);
+                        console.log('token:', token);
+
+                        if (status === 200 && statusText !== 'OK') {
+                            console.log('RCS_LOGIN_REQUEST_FAILED')
                             loginFailed = true;
                         }
-                         else {
-                            console.log('BROKER_REQUEST_SUCCESS')
+                        else {
+                            console.log('RCS_LOGIN_REQUEST_SUCCESS')
                         }
                     }
-                    
-                    let brokerStatus = false;
-                    if (!loginFailed) {
-                        brokerStatus = !!(loginResponse && loginResponse.data);
-                    }
-                    
-                    // const sendRcsRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
-                    // const sendRcsResponse = await axios.post(
-                    //     `${URL}/api/od_campaign`,
-                    //     requestBody,
-                    //     {
-                    //         headers: {
-                    //             Authorization: `Bearer ${token}`,  // Configuración del token
-                    //             apikey : RCS_API_KEY
-                    //         }
-                    //     }
-                    // )
-                    // .catch((error) => {
-                    //     sendRcsRequestDurationTimestamps.end = performance.now();
-                    //     if (error.response) {
-                    //         console.log('BROKER_REQUEST_FAILED')
-                    //     }
-                    // });
-                    
-                    // console.log('sendRcsResponse:',sendRcsResponse);
-                    
-                    const output = {
-                        brokerStatus: brokerStatus
-                    };
-                    
-                    return res.status(200).send(output);
-                    
-                } 
 
+                    let rcsSendStatus = false;
+                    if (!loginFailed) {
+                        rcsSendStatus = !!(loginResponse && loginResponse.data);
+                    }
+
+                    const sendRcsRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
+                    const sendRcsResponse = await axios.post(
+                        `${URL}/api/od_campaign`,
+                        requestBody,
+                        {
+                            headers: {
+                                Authorization: `Bearer ${token}`,
+                                apikey: RCS_API_KEY
+                            }
+                        }
+                    )
+                        .catch((error) => {
+                            sendRcsRequestDurationTimestamps.end = performance.now();
+                            if (error.response) {
+                                rcsSendStatus = true;
+                                console.log('RCS_REQUEST_FAILED')
+                            }
+                        });
+
+                    if (!loginFailed && sendRcsResponse) {
+                        const { data, status } = sendRcsResponse;
+
+                        console.log('status:', status);
+                        console.log('response_code:', data.response_code);
+
+                        if (status === 200 && data.response_code !== 0) {
+                            console.log('RCS_REQUEST_FAILED')
+                            loginFailed = true;
+                        }
+                        else {
+                            console.log('RCS_REQUEST_SUCCESS')
+                        }
+                    }
+
+                    const output = {
+                        rcsSendStatus: rcsSendStatus
+                    };
+
+                    return res.status(200).send(output);
+
+                }
             } else {
                 console.error('inArguments invalid.');
                 return res.status(400).end();
