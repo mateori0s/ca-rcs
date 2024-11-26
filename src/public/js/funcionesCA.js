@@ -38,7 +38,7 @@ function setDataExtensionMode() {
 }
 function getCaMode() {
     let caMode;
-    for (const mode of ['independent', 'dependent', 'data-extension']) {
+    for (const mode of ['independent', 'data-extension']) {
         if (document.getElementById(`mode-${mode}`).checked) caMode = mode;
     }
     return caMode;

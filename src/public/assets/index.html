@@ -43,6 +43,25 @@
                     <input type="text" name="dataExtension" id="dataExtension" placeholder="Nombre de la Data Extension"
                         style="width: 95%;" required="" class="text-input">
                 </fieldset>
+                <fieldset class="fs-column">
+                    <legend>Campaña</legend>
+                    <div  class="switch-field">
+                        <input type="radio" id="mode-independent" name="mode" value="independent" checked
+                            onclick="setIndependentMode()" />
+                        <label for="mode-independent"><i class="fa fa-comments" aria-hidden="true"></i>Simple</label>
+                        <input type="radio" id="mode-data-extension" name="mode" value="data-extension"
+                            onclick="setDataExtensionMode()" />
+                        <label for="mode-data-extension"><i class="fa fa-table" aria-hidden="true"></i>Dinamica</label>
+                    </div>
+                    <div id="independentModeOptionsDiv">
+                        <textarea maxlength="160" name="mensajeIndependiente" id="mensajeIndependiente" placeholder="Mensaje"
+                        required=""></textarea>
+                   </div>
+                    <div id="dataExtensionModeOptionsDiv" style="display: none;">
+                        <input type="text" name="dataExtensionMessageColumn" style="border: 1px solid grey;" id="dataExtensionMessageColumn"
+                            placeholder="Campo que contiene el mensaje" required="" >
+                    </div>
+                </fieldset>
             </form>
         </section>
     </div>

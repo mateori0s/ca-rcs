@@ -18,7 +18,8 @@
             "inArguments": [
                 { "dataExtension": "" },
                 { "mensajeTraducido": "" },
-                { "cellularNumber": "" }
+                { "cellularNumber": "" },
+                { "caMode": "" }
             ],
             "outArguments": [
                 { "rcsSendStatus": false }
@@ -86,6 +87,11 @@
                         },
                         "cellularNumber": {
                             "dataType": "Phone",
+                            "isNullable": true,
+                            "direction": "in"
+                        },
+                        "caMode": {
+                            "dataType": "Text",
                             "isNullable": true,
                             "direction": "in"
                         }
