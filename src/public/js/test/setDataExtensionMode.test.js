@@ -6,7 +6,6 @@ describe('setDataExtensionMode', () => {
     beforeEach(() => {
         // Simula el DOM
         document.body.innerHTML = `
-            <div id="dependentModeOptionsDiv" style="display: flex;"></div>
             <div id="independentModeOptionsDiv" style="display: flex;"></div>
             <div id="dataExtensionModeOptionsDiv" style="display: none;"></div>
         `;
@@ -31,7 +30,6 @@ describe('setDataExtensionMode', () => {
         setDataExtensionMode();
 
         // Verifica los estilos
-        expect(document.getElementById('dependentModeOptionsDiv').style.display).toBe('none');
         expect(document.getElementById('independentModeOptionsDiv').style.display).toBe('none');
         expect(document.getElementById('dataExtensionModeOptionsDiv').style.display).toBe('flex');
 

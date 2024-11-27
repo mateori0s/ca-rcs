@@ -17,21 +17,12 @@ function getSmsAction() {
 }
 
 function setIndependentMode() {
-    document.getElementById("dependentModeOptionsDiv").style.display = "none";
     document.getElementById("independentModeOptionsDiv").style.display = "flex";
     document.getElementById("dataExtensionModeOptionsDiv").style.display = "none";
     global.connection.trigger("requestInteraction");
 }
 
-function setDependentMode() {
-    document.getElementById("dependentModeOptionsDiv").style.display = "flex";
-    document.getElementById("independentModeOptionsDiv").style.display = "none";
-    document.getElementById("dataExtensionModeOptionsDiv").style.display = "none";
-    global.connection.trigger("requestInteraction");
-}
-
 function setDataExtensionMode() {
-    document.getElementById("dependentModeOptionsDiv").style.display = "none";
     document.getElementById("independentModeOptionsDiv").style.display = "none";
     document.getElementById("dataExtensionModeOptionsDiv").style.display = "flex";
     global.connection.trigger("requestInteraction");

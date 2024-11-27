@@ -116,13 +116,11 @@ function setSaveAction() {
     connection.trigger('requestInteraction');
 }
 function setIndependentMode() {
-    document.getElementById("dependentModeOptionsDiv").style.display = "none";
     document.getElementById("independentModeOptionsDiv").style.display = "flex";
     document.getElementById("dataExtensionModeOptionsDiv").style.display = "none";
     connection.trigger("requestInteraction");
 }
 function setDataExtensionMode() {
-    document.getElementById("dependentModeOptionsDiv").style.display = "none";
     document.getElementById("independentModeOptionsDiv").style.display = "none";
     document.getElementById("dataExtensionModeOptionsDiv").style.display = "flex";
     connection.trigger("requestInteraction");

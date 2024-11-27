@@ -224,9 +224,6 @@ dos bordes con color y que giramos con transform: rotate(-45deg);
    width: 94%;
 }
 
-#dependentModeOptionsDiv select{
-   margin: 0;
-}
 
 #messageActivity{
    margin: 10px 0 !important;
