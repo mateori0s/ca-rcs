@@ -34,7 +34,7 @@ define(['postmonger'], (Postmonger) => {
         console.log('1 Data Extension:', dataExtension);
         console.log('1 Arguments:', activity['arguments'].execute.inArguments);
 
-        const caModeArg = inArguments.find(arg => arg.caMode)?.caMode || '';
+        const caModeArg = inArguments.find(arg => arg.caMode);
         if (caModeArg && caModeArg.caMode && ['independent', 'data-extension'].includes(caModeArg.caMode)) {
             document.getElementById(`mode-${caModeArg.caMode}`).checked = true;
             if (caModeArg.caMode === 'independent') setIndependentMode();
@@ -43,7 +43,7 @@ define(['postmonger'], (Postmonger) => {
 
         let caMode = getCaMode();
         if (caMode === 'independent') {
-            const idCampaingArg = inArguments.find(arg => arg.idCampaing)?.idCampaing || '';
+            const idCampaingArg = inArguments.find(arg => arg.idCampaing);
             if (idCampaingArg) {
                 document.getElementById('idIndependiente').value = idCampaingArg.idCampaing;
             }
@@ -54,7 +54,7 @@ define(['postmonger'], (Postmonger) => {
             }
         }
 
-        const dataExtensionArg = inArguments.find(arg => arg.dataExtension)?.dataExtension || '';
+        const dataExtensionArg = inArguments.find(arg => arg.dataExtension);
         if (dataExtensionArg) document.getElementById('dataExtension').value = dataExtensionArg.dataExtension;
 
     });
@@ -62,9 +62,9 @@ define(['postmonger'], (Postmonger) => {
 
     connection.on('clickedNext', () => { // Save function within MC.
         
-        const caMode = document.getElementById('caMode').value;
+        const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
-        const idCampaing = document.getElementById('idIndependiente').value;
+        let idCampaing;
         let dataExtensionIdColumn;
 
         console.log('2 Mode:', caMode);
