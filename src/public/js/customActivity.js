@@ -61,10 +61,10 @@ define(['postmonger'], (Postmonger) => {
 
 
     connection.on('clickedNext', () => { // Save function within MC.
-
+        
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
-        const idCampaing = document.getElementById("idIndependiente").value;
+        let idCampaing;
         let dataExtensionIdColumn;
 
         console.log('2 Mode:', caMode);
