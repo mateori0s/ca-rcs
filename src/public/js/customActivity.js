@@ -53,6 +53,7 @@ define(['postmonger'], (Postmonger) => {
                 document.getElementById('dataExtensionIdColumn').value = dataExtensionIdColumnArg.dataExtensionIdColumn;
             }
         }
+
         const dataExtensionArg = inArguments.find(arg => arg.dataExtension);
         if (dataExtensionArg) document.getElementById('dataExtension').value = dataExtensionArg.dataExtension;
 
@@ -64,7 +65,7 @@ define(['postmonger'], (Postmonger) => {
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
         const idCampaing = document.getElementById("idIndependiente").value;
-        const dataExtensionIdColumn = document.getElementById("dataExtensionIdColumn").value;
+        let dataExtensionIdColumn;
 
         console.log('2 Mode:', caMode);
         console.log('2 idCampaing:', idCampaing);
