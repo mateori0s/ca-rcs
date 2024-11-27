@@ -18,7 +18,8 @@
             "inArguments": [
                 { "dataExtension": "" },
                 { "cellularNumber": "" },
-                { "caMode": "" }
+                { "caMode": "" },
+                { "dataExtensionIdColumn": "" }
             ],
             "outArguments": [
                 { "rcsSendStatus": false }
@@ -85,6 +86,11 @@
                             "direction": "in"
                         },
                         "caMode": {
+                            "dataType": "Text",
+                            "isNullable": true,
+                            "direction": "in"
+                        },
+                        "dataExtensionIdColumn": {
                             "dataType": "Text",
                             "isNullable": true,
                             "direction": "in"

@@ -48,9 +48,9 @@ define(['postmonger'], (Postmonger) => {
                 document.getElementById('idIndependiente').value = idCampaingArg.idCampaing;
             }
         } else if (caMode === 'data-extension') {
-            const dataExtensionMessageColumnArg = inArguments.find(arg => arg.dataExtensionMessageColumn);
-            if (dataExtensionMessageColumnArg) {
-                document.getElementById('dataExtensionMessageColumn').value = dataExtensionMessageColumnArg.dataExtensionMessageColumn;
+            const dataExtensionIdColumnArg = inArguments.find(arg => arg.dataExtensionIdColumn);
+            if (dataExtensionIdColumnArg) {
+                document.getElementById('dataExtensionIdColumn').value = dataExtensionIdColumnArg.dataExtensionIdColumn;
             }
         }
 
@@ -59,16 +59,13 @@ define(['postmonger'], (Postmonger) => {
 
     });
 
-    connection.on('requestedInteraction', (payload) => {
-        let caMode = getCaMode();
-    });
 
     connection.on('clickedNext', () => { // Save function within MC.
 
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
         let idCampaing;
-        let dataExtensionMessageColumn;
+        let dataExtensionIdColumn;
 
 
         console.log('2 Mode:', caMode);
@@ -79,8 +76,8 @@ define(['postmonger'], (Postmonger) => {
         if (caMode === 'independent') {
             idCampaing = document.getElementById("idIndependiente").value;
         } else if (caMode === 'data-extension') {
-            dataExtensionMessageColumn = document.getElementById("dataExtensionMessageColumn").value;
-            idCampaing = `{{Contact.Attribute."${dataExtension}".campaing_id}}`;
+            dataExtensionIdColumn = document.getElementById("dataExtensionIdColumn").value;
+            idCampaing = `{{Contact.Attribute."${dataExtension}".${dataExtensionIdColumn}}}`;
         }
         const cellularNumber = `{{Contact.Attribute."${dataExtension}".cellular_number}}`;
 
@@ -89,7 +86,7 @@ define(['postmonger'], (Postmonger) => {
             { idCampaing: idCampaing ? idCampaing : null },
             { cellularNumber: cellularNumber ? cellularNumber : null },
             { caMode: caMode ? caMode : null },
-            { dataExtensionMessageColumn: dataExtensionMessageColumn ? dataExtensionMessageColumn : null }
+            { dataExtensionIdColumn: dataExtensionIdColumn ? dataExtensionIdColumn : null }
         ];
         
         activity['metaData'].isConfigured = true;
