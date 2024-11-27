@@ -34,7 +34,7 @@ define(['postmonger'], (Postmonger) => {
         console.log('1 Data Extension:', dataExtension);
         console.log('1 Arguments:', activity['arguments'].execute.inArguments);
 
-        const caModeArg = inArguments.find(arg => arg.caMode);
+        const caModeArg = inArguments.find(arg => arg.caMode)?.caMode || '';
         if (caModeArg && caModeArg.caMode && ['independent', 'data-extension'].includes(caModeArg.caMode)) {
             document.getElementById(`mode-${caModeArg.caMode}`).checked = true;
             if (caModeArg.caMode === 'independent') setIndependentMode();
@@ -43,7 +43,7 @@ define(['postmonger'], (Postmonger) => {
 
         let caMode = getCaMode();
         if (caMode === 'independent') {
-            const idCampaingArg = inArguments.find(arg => arg.idCampaing);
+            const idCampaingArg = inArguments.find(arg => arg.idCampaing)?.idCampaing || '';
             if (idCampaingArg) {
                 document.getElementById('idIndependiente').value = idCampaingArg.idCampaing;
             }
@@ -54,7 +54,7 @@ define(['postmonger'], (Postmonger) => {
             }
         }
 
-        const dataExtensionArg = inArguments.find(arg => arg.dataExtension);
+        const dataExtensionArg = inArguments.find(arg => arg.dataExtension)?.dataExtension || '';
         if (dataExtensionArg) document.getElementById('dataExtension').value = dataExtensionArg.dataExtension;
 
     });
@@ -62,9 +62,9 @@ define(['postmonger'], (Postmonger) => {
 
     connection.on('clickedNext', () => { // Save function within MC.
         
-        const caMode = getCaMode();
+        const caMode = document.getElementById('caMode').value;
         const dataExtension = document.getElementById('dataExtension').value;
-        let idCampaing;
+        const idCampaing = document.getElementById('idIndependiente').value;
         let dataExtensionIdColumn;
 
         console.log('2 Mode:', caMode);
@@ -107,13 +107,6 @@ define(['postmonger'], (Postmonger) => {
     });
 });
 
-function setSendAction() {
-    connection.trigger('requestInteraction');
-}
-
-function setSaveAction() {
-    connection.trigger('requestInteraction');
-}
 function setIndependentMode() {
     document.getElementById("independentModeOptionsDiv").style.display = "flex";
     document.getElementById("dataExtensionModeOptionsDiv").style.display = "none";
@@ -126,7 +119,7 @@ function setDataExtensionMode() {
 }
 function getCaMode() {
     let caMode;
-    for (const mode of ['independent', 'data-extension']) {
+    for (const mode of ['independent','data-extension']) {
         if (document.getElementById(`mode-${mode}`).checked) caMode = mode;
     }
     return caMode;
