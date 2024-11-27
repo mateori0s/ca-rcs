@@ -29,6 +29,10 @@ define(['postmonger'], (Postmonger) => {
             data.arguments.execute.inArguments.length > 0
         ) ? data.arguments.execute.inArguments : [];
 
+        console.log('1 Mode:', caMode);
+        console.log('1 idCampaing:', idCampaing);
+        console.log('1 Data Extension:', dataExtension);
+        console.log('1 Arguments:', activity['arguments'].execute.inArguments);
 
         const caModeArg = inArguments.find(arg => arg.caMode);
         if (caModeArg && caModeArg.caMode && ['independent', 'data-extension'].includes(caModeArg.caMode)) {
@@ -41,7 +45,7 @@ define(['postmonger'], (Postmonger) => {
         if (caMode === 'independent') {
             const idCampaingArg = inArguments.find(arg => arg.idCampaing);
             if (idCampaingArg) {
-                document.getElementById('mensajeIndependiente').value = idCampaingArg.idCampaing;
+                document.getElementById('idIndependiente').value = idCampaingArg.idCampaing;
             }
         } else if (caMode === 'data-extension') {
             const dataExtensionMessageColumnArg = inArguments.find(arg => arg.dataExtensionMessageColumn);
@@ -63,16 +67,22 @@ define(['postmonger'], (Postmonger) => {
 
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
+        let idCampaing;
         let dataExtensionMessageColumn;
 
+
+        console.log('2 Mode:', caMode);
+        console.log('2 idCampaing:', idCampaing);
+        console.log('2 Data Extension:', dataExtension);
+        console.log('2 Arguments:', activity['arguments'].execute.inArguments);
+
         if (caMode === 'independent') {
-            idCampaing = document.getElementById("mensajeIndependiente").value;
+            idCampaing = document.getElementById("idIndependiente").value;
         } else if (caMode === 'data-extension') {
             dataExtensionMessageColumn = document.getElementById("dataExtensionMessageColumn").value;
-            idCampaing = `{{Contact.Attribute."${dataExtension}".${dataExtensionMessageColumn}}}`;
+            idCampaing = `{{Contact.Attribute."${dataExtension}".campaing_id}}`;
         }
         const cellularNumber = `{{Contact.Attribute."${dataExtension}".cellular_number}}`;
-        //const idCampaing = `{{Contact.Attribute."${dataExtension}".campaing_id}}`;
 
         activity['arguments'].execute.inArguments = [
             { dataExtension: dataExtension ? dataExtension : null },
@@ -85,6 +95,11 @@ define(['postmonger'], (Postmonger) => {
         activity['metaData'].isConfigured = true;
         connection.trigger('updateActivity', activity);
     });
+
+    console.log('3 Mode:', caMode);
+    console.log('3 idCampaing:', idCampaing);
+    console.log('3 Data Extension:', dataExtension);
+    console.log('3 Arguments:', activity['arguments'].execute.inArguments);
 
     /**
      * This function is to pull out the event definition within journey builder.
