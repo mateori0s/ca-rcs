@@ -29,7 +29,7 @@ define(['postmonger'], (Postmonger) => {
             data.arguments.execute.inArguments.length > 0
         ) ? data.arguments.execute.inArguments : [];
 
-        console.log('1 Mode:', caMode);
+        //console.log('1 Mode:', caMode);
         console.log('1 idCampaing:', idCampaing);
         console.log('1 Data Extension:', dataExtension);
         console.log('1 Arguments:', activity['arguments'].execute.inArguments);
@@ -61,7 +61,7 @@ define(['postmonger'], (Postmonger) => {
 
 
     connection.on('clickedNext', () => { // Save function within MC.
-        
+    
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
         let idCampaing;
@@ -92,7 +92,7 @@ define(['postmonger'], (Postmonger) => {
         connection.trigger('updateActivity', activity);
     });
 
-    console.log('3 Mode:', caMode);
+    //console.log('3 Mode:', caMode);
     console.log('3 idCampaing:', idCampaing);
     console.log('3 Data Extension:', dataExtension);
     console.log('3 Arguments:', activity['arguments'].execute.inArguments);
