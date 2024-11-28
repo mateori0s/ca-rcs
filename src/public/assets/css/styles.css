@@ -224,6 +224,14 @@ dos bordes con color y que giramos con transform: rotate(-45deg);
    width: 94%;
 }
 
+#independentModeOptionsDiv input{
+   border: 1px solid grey;
+   margin-top: 10px;
+   width: 94%;
+}
+
+
+
 
 #messageActivity{
    margin: 10px 0 !important;
