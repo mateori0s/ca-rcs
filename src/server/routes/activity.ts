@@ -114,13 +114,6 @@ const execute = async function (req: Request, res: Response) {
                 const loginRequestDurationTimestamps: DurationTimestampsPair = { start: performance.now(), end: null };
                 let URL = RCS_SMS_API_URL
 
-                console.log('RCS_SMS_API_URL:', RCS_SMS_API_URL);
-                console.log('RCS_API_KEY:', RCS_API_KEY);
-                console.log('cellularNumber:', cellularNumber);
-                console.log('idCampaing:', idCampaing);
-
-                console.log('---Post Login---');
-
                 const loginResponse = await axios.post(
                     `${URL}/auth/login`,
                     requestBody,
@@ -143,19 +136,21 @@ const execute = async function (req: Request, res: Response) {
 
                 if (!loginFailed && loginResponse) {
                     const { data, status, statusText } = loginResponse;
-
                     token = data.data.token
-
-                    console.log('status:', status);
-                    console.log('statusText:', statusText);
-                    console.log('token:', token);
 
                     if (status === 200 && statusText !== 'OK') {
                         console.log('RCS_LOGIN_REQUEST_FAILED')
+                        console.log('status:', status);
+                        console.log('motivo:', statusText);
+                        console.log('MSISDN:', cellularNumber);
                         loginFailed = true;
                     }
                     else {
                         console.log('RCS_LOGIN_REQUEST_SUCCESS')
+                        console.log('status:', status);
+                        console.log('idCampaing:', idCampaing);
+                        console.log('MSISDN:', cellularNumber);
+
                     }
                 }
 
@@ -184,20 +179,23 @@ const execute = async function (req: Request, res: Response) {
                     });
 
                 if (!loginFailed && sendRcsResponse) {
-                    const { data, status } = sendRcsResponse;
-
-                    console.log('status:', status);
-                    console.log('response_code:', data.response_code);
+                    const { data, status, statusText } = sendRcsResponse;
 
                     if (status === 200 && data.response_code !== 0) {
                         console.log('RCS_REQUEST_FAILED')
+                        console.log('status:', status);
+                        console.log('motivo:', statusText);
+                        console.log('MSISDN:', cellularNumber);
+
                         loginFailed = true;
                     }
                     else {
                         console.log('RCS_REQUEST_SUCCESS')
+                        console.log('status:', status);
+                        console.log('idCampaing:', idCampaing);
+                        console.log('MSISDN:', cellularNumber);
                     }
                 }
-
                 const output = {
                     rcsSendStatus: rcsSendStatus
                 };
