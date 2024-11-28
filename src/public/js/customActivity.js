@@ -38,6 +38,7 @@ define(['postmonger'], (Postmonger) => {
 
         let caMode = getCaMode();
         let idCampaing;
+        
         if (caMode === 'independent') {
             const idCampaingArg = inArguments.find(arg => arg.idCampaing);
             if (idCampaingArg) {
@@ -65,13 +66,8 @@ define(['postmonger'], (Postmonger) => {
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
         let dataExtensionIdColumn;
-        const idCampaing = '';
-
-        console.log('2 Mode:', caMode);
-        console.log('2 idCampaing:', idCampaing);
-        console.log('2 Data Extension:', dataExtension);
-        console.log('2 Arguments:', activity['arguments'].execute.inArguments);
-
+        let idCampaing;
+        
         if (caMode === 'independent') {
            idCampaing = document.getElementById("idIndependiente").value;
         } else if (caMode === 'data-extension') {
@@ -90,12 +86,12 @@ define(['postmonger'], (Postmonger) => {
         
         activity['metaData'].isConfigured = true;
         connection.trigger('updateActivity', activity);
-    });
 
-    //console.log('3 Mode:', caMode);
-    console.log('3 idCampaing:', idCampaing);
-    console.log('3 Data Extension:', dataExtension);
-    console.log('3 Arguments:', activity['arguments'].execute.inArguments);
+        console.log('2 Mode:', caMode);
+        console.log('2 idCampaing:', idCampaing);
+        console.log('2 Data Extension:', dataExtension);
+        console.log('2 Arguments:', activity['arguments'].execute.inArguments);
+    });
 
     /**
      * This function is to pull out the event definition within journey builder.
