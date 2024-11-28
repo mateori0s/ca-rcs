@@ -29,11 +29,6 @@ define(['postmonger'], (Postmonger) => {
             data.arguments.execute.inArguments.length > 0
         ) ? data.arguments.execute.inArguments : [];
 
-        //console.log('1 Mode:', caMode);
-        console.log('1 idCampaing:', idCampaing);
-        console.log('1 Data Extension:', dataExtension);
-        console.log('1 Arguments:', activity['arguments'].execute.inArguments);
-
         const caModeArg = inArguments.find(arg => arg.caMode);
         if (caModeArg && caModeArg.caMode && ['independent', 'data-extension'].includes(caModeArg.caMode)) {
             document.getElementById(`mode-${caModeArg.caMode}`).checked = true;
@@ -42,6 +37,7 @@ define(['postmonger'], (Postmonger) => {
         }
 
         let caMode = getCaMode();
+        let idCampaing;
         if (caMode === 'independent') {
             const idCampaingArg = inArguments.find(arg => arg.idCampaing);
             if (idCampaingArg) {
@@ -53,10 +49,14 @@ define(['postmonger'], (Postmonger) => {
                 document.getElementById('dataExtensionIdColumn').value = dataExtensionIdColumnArg.dataExtensionIdColumn;
             }
         }
-
         const dataExtensionArg = inArguments.find(arg => arg.dataExtension);
         if (dataExtensionArg) document.getElementById('dataExtension').value = dataExtensionArg.dataExtension;
 
+        console.log('1 Mode:', caMode);
+        console.log('1 idCampaing:', idCampaing);
+        console.log('1 Data Extension:', dataExtension);
+        console.log('1 Arguments:', activity['arguments'].execute.inArguments);
+        
     });
 
 
@@ -64,8 +64,8 @@ define(['postmonger'], (Postmonger) => {
     
         const caMode = getCaMode();
         const dataExtension = document.getElementById('dataExtension').value;
-        let idCampaing;
         let dataExtensionIdColumn;
+        const idCampaing = '';
 
         console.log('2 Mode:', caMode);
         console.log('2 idCampaing:', idCampaing);
@@ -73,7 +73,7 @@ define(['postmonger'], (Postmonger) => {
         console.log('2 Arguments:', activity['arguments'].execute.inArguments);
 
         if (caMode === 'independent') {
-            idCampaing = document.getElementById("idIndependiente").value;
+           idCampaing = document.getElementById("idIndependiente").value;
         } else if (caMode === 'data-extension') {
             dataExtensionIdColumn = document.getElementById("dataExtensionIdColumn").value;
             idCampaing = `{{Contact.Attribute."${dataExtension}".${dataExtensionIdColumn}}}`;
